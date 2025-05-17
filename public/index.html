@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather Subscription</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+  
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+  
+    .left, .right {
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .left {
+      width: 40%;
+      background-color: #f0f8ff;
+      border-right: 1px solid #ccc;
+    }
+
+    .right {
+      width: 60%;
+    }
+  
+    h1, h2, p {
+    text-align: center;
+    width: 100%;
+    margin: 1rem 0;
+    }
+
+    form {
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    input, select, button {
+      padding: 0.5rem;
+      width: 50%;
+      margin: 0.5rem 0;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+  
+    button {
+      padding: 0.7rem;
+      background: #007BFF;
+      width: 50%;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+    }
+  
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+      <h1>Just now</h1>
+      <h2>Get Current Weather</h2>
+      <form id="current-weather-form">
+        <input type="text" name="city" placeholder="Enter city" required />
+        <button type="submit">Get Weather</button>
+      </form>
+      <p id="weather-result"></p>
+    </div>
+
+    <div class="right">
+      <h1>Subscribing</h1>
+      <h2>Subscribe to Weather Forecast</h2>
+      <form id="subscribe-form">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="text" name="city" placeholder="City" required />
+        <select name="frequency" required>
+          <option value="">Select frequency</option>
+          <option value="daily">Daily</option>
+          <option value="hourly">Hourly</option>
+        </select>
+        <button type="submit">Send form</button>
+      </form>
+
+      <h2>Subscription confirmation</h2>
+      <form id="confirm-form">
+        <input type="text" name="token" placeholder="Confirm token" required />
+        <button type="submit">Confirm</button>
+      </form>
+
+      <h2>Unsubscribe</h2>
+      <form id="unsubscribe-form">
+        <input type="text" name="token" placeholder="Unsubscribe token" required />
+        <button type="submit">Unsubscribe</button>
+      </form>
+
+      <p id="message"></p>
+    </div>
+  </div>
+
+  <script>
+    const apiBase = "/api";
+
+    document.getElementById("subscribe-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = new URLSearchParams(new FormData(form));
+
+      const res = await fetch(`${apiBase}/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: data
+      });
+
+      const msg = document.getElementById("message");
+      msg.textContent = res.ok
+        ? "Subscription request sent! Check your email."
+        : "Failed to subscribe.";
+    });
+
+    document.getElementById("confirm-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const token = e.target.token.value;
+
+      const res = await fetch(`${apiBase}/confirm/${token}`, {
+        method: "GET"
+      });
+
+      const msg = document.getElementById("message");
+      msg.textContent = res.ok
+        ? "Successfully confirmed."
+        : "Invalid token or error confirming.";
+    });
+
+    document.getElementById("unsubscribe-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const token = e.target.token.value;
+
+      const res = await fetch(`${apiBase}/unsubscribe/${token}`, {
+        method: "GET"
+      });
+
+      const msg = document.getElementById("message");
+      msg.textContent = res.ok
+        ? "Successfully unsubscribed."
+        : "Invalid token or error unsubscribing.";
+    });
+
+    document.getElementById("current-weather-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const city = e.target.city.value;
+      const resultDiv = document.getElementById("weather-result");
+
+      try {
+        const res = await fetch(`${apiBase}/weather?city=${encodeURIComponent(city)}`);
+        if (!res.ok) throw new Error("Failed to fetch weather");
+
+        const data = await res.json();
+        resultDiv.textContent = `Current weather in ${city}: Temperature: ${data.temperature}°C, Humidity: ${data.humidity}, Description: ${data.description}`;
+      } catch (err) {
+        resultDiv.textContent = "Could not fetch weather.";
+      }
+    });
+  </script>
+</body>
+</html>
