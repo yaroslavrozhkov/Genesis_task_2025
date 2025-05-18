@@ -11,8 +11,9 @@ model Subscription {
   id        Int      @id @default(autoincrement())
   email     String
   city      String
-  frequency String
+  frequency Int
   confirmed Boolean  @default(false)
   token     String   @unique
   createdAt DateTime @default(now())
+  lastSentAt DateTime?
 }

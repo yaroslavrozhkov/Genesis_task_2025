@@ -1,9 +1,13 @@
 import express from "express";
+import { WeatherApiClient } from "../infrastructure/WeatherApiClient";
+import { PrismaSubscriptionRepository } from "../infrastructure/PrismaSubscriptionRepository";
 import { WeatherService } from "../services/weatherService";
 import { WeatherController } from "../controllers/weatherController";
 
 const router = express.Router();
-const service = new WeatherService();
+const apiClient = new WeatherApiClient();
+const subscriptionRepo = new PrismaSubscriptionRepository();
+const service = new WeatherService(apiClient, subscriptionRepo);
 const controller = new WeatherController(service);
 
 router.get("/weather", controller.getWeather);

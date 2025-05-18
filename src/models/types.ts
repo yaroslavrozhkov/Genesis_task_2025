@@ -8,4 +8,5 @@ export type Weather = {
     email: string;
     city: string;
     frequency: "hourly" | "daily";
+    lastSentAt: Date;
   };
