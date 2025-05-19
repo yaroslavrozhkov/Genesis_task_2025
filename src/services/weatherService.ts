@@ -32,6 +32,12 @@ export class WeatherService implements IWeatherService {
       throw new Error("Invalid frequency. Must be 'hourly' or 'daily'");
     }
 
+    try {
+      await this.getWeather(city);
+    } catch (error) {
+      throw new Error(`Invalid city: "${city}". Weather data could not be retrieved.`);
+    }
+
     const token = uuidv4();
     await this.subscriptionRepo.create(email, city, frequencyValue, token);
 

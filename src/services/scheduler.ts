@@ -35,7 +35,6 @@ async function processSubscriptions() {
           <p><b>Temperature:</b> ${weather.temperature}°C</p>
           <p><b>Humidity:</b> ${weather.humidity}%</p>
           <p><b>Description:</b> ${weather.description}</p>
-          <p><a href="${serviceUrl}/api/unsubscribe/${sub.token}">Unsubscribe</a></p>
         `
       );
 
