@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { ISubscriptionRepository } from "../interfaces/ISubscriptionRepository";
+import { ISubscriptionRepository } from "../interfaces/subscription-repository.interface";
 
 const prisma = new PrismaClient();
 

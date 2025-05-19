@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IWeatherApiClient } from "../interfaces/IWeatherApiClient";
+import { IWeatherApiClient } from "../interfaces/weather-api-client.interface";
 import { Weather } from "../models/types";
 
 export class WeatherApiClient implements IWeatherApiClient {

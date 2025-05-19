@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { WeatherService } from "./weatherService";
-import { WeatherApiClient } from "../infrastructure/WeatherApiClient";
-import { PrismaSubscriptionRepository } from "../infrastructure/PrismaSubscriptionRepository";
-import { sendEmail } from "../utils/emailService";
+import { WeatherService } from "./weather-service";
+import { WeatherApiClient } from "../infrastructure/weather-api-client";
+import { PrismaSubscriptionRepository } from "../infrastructure/prisma-subscription-repository";
+import { sendEmail } from "../utils/email-service";
 
 const prisma = new PrismaClient();
 

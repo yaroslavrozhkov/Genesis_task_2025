@@ -1,8 +1,8 @@
 import express from "express";
-import { WeatherApiClient } from "../infrastructure/WeatherApiClient";
-import { PrismaSubscriptionRepository } from "../infrastructure/PrismaSubscriptionRepository";
-import { WeatherService } from "../services/weatherService";
-import { WeatherController } from "../controllers/weatherController";
+import { WeatherApiClient } from "../infrastructure/weather-api-client";
+import { PrismaSubscriptionRepository } from "../infrastructure/prisma-subscription-repository";
+import { WeatherService } from "../services/weather-service";
+import { WeatherController } from "../controllers/weather-controller";
 
 const router = express.Router();
 const apiClient = new WeatherApiClient();

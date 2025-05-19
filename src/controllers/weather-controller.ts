@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IWeatherService } from "../interfaces/IWeatherService";
+import { IWeatherService } from "../interfaces/weather-service.interface";
 
 export class WeatherController {
   constructor(private weatherService: IWeatherService) {}

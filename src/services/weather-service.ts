@@ -1,9 +1,9 @@
-import { IWeatherService } from "../interfaces/IWeatherService";
-import { IWeatherApiClient } from "../interfaces/IWeatherApiClient";
-import { ISubscriptionRepository } from "../interfaces/ISubscriptionRepository";
+import { IWeatherService } from "../interfaces/weather-service.interface";
+import { IWeatherApiClient } from "../interfaces/weather-api-client.interface";
+import { ISubscriptionRepository } from "../interfaces/subscription-repository.interface";
 import { Weather } from "../models/types";
 
-import { sendEmail } from "../utils/emailService";
+import { sendEmail } from "../utils/email-service";
 
 import { v4 as uuidv4 } from "uuid";
 
