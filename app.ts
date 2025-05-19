@@ -11,9 +11,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", apiRoutes);
-app.use("/", express.static(path.join(__dirname, "public")));
+app.use("/", express.static(path.resolve(__dirname, "..", "public")));
 
-const PORT = 3000;
+const url = process.env.SERVICE_URL;
+
+const PORT = process.env.APP_PORT;
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running at ${url}:${PORT}`);
 });

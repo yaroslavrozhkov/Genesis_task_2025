@@ -2,6 +2,9 @@ import { IWeatherService } from "../interfaces/IWeatherService";
 import { IWeatherApiClient } from "../interfaces/IWeatherApiClient";
 import { ISubscriptionRepository } from "../interfaces/ISubscriptionRepository";
 import { Weather } from "../models/types";
+
+import { sendEmail } from "../utils/emailService";
+
 import { v4 as uuidv4 } from "uuid";
 
 export class WeatherService implements IWeatherService {
@@ -12,6 +15,7 @@ export class WeatherService implements IWeatherService {
 
   async getWeather(city: string): Promise<Weather> {
     if (!city) throw new Error("City is required");
+
     return this.weatherApiClient.fetchWeather(city);
   }
 
@@ -30,6 +34,13 @@ export class WeatherService implements IWeatherService {
 
     const token = uuidv4();
     await this.subscriptionRepo.create(email, city, frequencyValue, token);
+
+    await sendEmail(
+      email,
+      "Weather Update : Confirmation token",
+      `<p>Use this token to confirm Your subscribe ${token}</p>`
+    );
+
     console.log(`Send confirmation email with token: ${token}`);
   }
 
